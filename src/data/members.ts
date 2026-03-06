@@ -4,7 +4,7 @@ export interface Member {
   realName?: string;
   domain: string;
   skills: string;
-  year: string; // N21, N22, etc.
+  year: string; // Year joined: 2025, 2026, etc.
   isLeader?: boolean; // Leader of the year
   github?: string;
   linkedin?: string;
@@ -17,69 +17,69 @@ export interface Member {
 
 export const members: Member[] = [
   {
-    id: 'N2100001',
+    id: '20250001',
     alias: 'cipher_',
     realName: 'Alex Chen',
     domain: 'Web Security',
     skills: 'Server-side exploitation & API security',
-    year: 'N21',
+    year: '2025',
     isLeader: true,
     github: 'cipheralex',
     linkedin: 'alex-chen-sec',
     image: 'https://images.unsplash.com/photo-1660644807804-ffacfd7a4137?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjeWJlcnNlY3VyaXR5JTIwcHJvZmVzc2lvbmFsJTIwaGVhZHNob3R8ZW58MXx8fHwxNzY1ODg1MTM1fDA&ixlib=rb-4.1.0&q=80&w=400',
   },
   {
-    id: 'N2100002',
+    id: '20250002',
     alias: 'null_byte',
     realName: 'Sarah Kim',
     domain: 'Reverse Engineering',
     skills: 'Binary analysis & malware research',
-    year: 'N21',
+    year: '2025',
     github: 'nullbyte',
     linkedin: 'sarah-kim-re',
     image: 'https://images.unsplash.com/photo-1565687981296-535f09db714e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoYWNrZXIlMjBkZXZlbG9wZXIlMjBwb3J0cmFpdHxlbnwxfHx8fDE3NjU4ODUxMzV8MA&ixlib=rb-4.1.0&q=80&w=400',
   },
   {
-    id: 'N2200001',
+    id: '20260001',
     alias: 'forge',
     realName: 'Marcus Rodriguez',
     domain: 'Systems Engineering',
     skills: 'Infrastructure hardening & automation',
     isLeader: true,
-    year: 'N22',
+    year: '2026',
     github: 'forgedev',
     linkedin: 'marcus-rodriguez',
     image: 'https://images.unsplash.com/photo-1752859951149-7d3fc700a7ec?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWNoJTIwcHJvZmVzc2lvbmFsJTIwcG9ydHJhaXR8ZW58MXx8fHwxNzY1ODYwODM3fDA&ixlib=rb-4.1.0&q=80&w=400',
   },
   {
-    id: 'N2200002',
+    id: '20260002',
     alias: 'quantum',
     realName: 'Emily Zhang',
     domain: 'AI Security',
     skills: 'Adversarial ML & model security',
-    year: 'N22',
+    year: '2026',
     github: 'quantumsec',
     linkedin: 'emily-zhang-ai',
     image: 'https://images.unsplash.com/photo-1681164315430-6159b2361615?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzb2Z0d2FyZSUyMGVuZ2luZWVyJTIwaGVhZHNob3R8ZW58MXx8fHwxNzY1ODg1MTM2fDA&ixlib=rb-4.1.0&q=80&w=400',
   },
   {
-    id: 'N2100003',
+    id: '20250003',
     alias: 'trace',
     realName: 'David Park',
     domain: 'Digital Forensics',
     skills: 'Incident response & memory analysis',
-    year: 'N21',
+    year: '2025',
     github: 'tracesec',
     linkedin: 'david-park-dfir',
     image: 'https://images.unsplash.com/photo-1635366795162-90b6041fd292?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzZWN1cml0eSUyMHJlc2VhcmNoZXIlMjBwb3J0cmFpdHxlbnwxfHx8fDE3NjU4ODUxMzZ8MA&ixlib=rb-4.1.0&q=80&w=400',
   },
   {
-    id: 'N2200003',
+    id: '20260003',
     alias: 'echo',
     realName: 'Nina Patel',
     domain: 'OSINT',
     skills: 'Intelligence gathering & reconnaissance',
-    year: 'N22',
+    year: '2026',
     github: 'echoint',
     linkedin: 'nina-patel-osint',
     image: 'https://images.unsplash.com/photo-1555963153-11ff60182d08?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkZXZlbG9wZXIlMjBoZWFkc2hvdCUyMGRhcmt8ZW58MXx8fHwxNzY1ODg1MTM3fDA&ixlib=rb-4.1.0&q=80&w=400',

@@ -7,6 +7,7 @@ import { getOperations, Operation } from '../data/operations';
 export function Operations() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [selectedYear, setSelectedYear] = useState<string>('All');
   const [operations, setOperations] = useState<Operation[]>([]);
 
   useEffect(() => {
@@ -34,8 +35,9 @@ export function Operations() {
       op.role.toLowerCase().includes(searchTerm.toLowerCase());
     
     const matchesCategory = selectedCategory === 'All' || op.category === selectedCategory;
+    const matchesYear = selectedYear === 'All' || op.year === selectedYear;
     
-    return matchesSearch && matchesCategory;
+    return matchesSearch && matchesCategory && matchesYear;
   });
 
   return (
@@ -77,21 +79,41 @@ export function Operations() {
               />
             </div>
 
-            {/* Category Filter */}
-            <div className="flex gap-2 flex-wrap">
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                  className={`px-3 sm:px-4 py-2 text-[11px] sm:text-[12px] font-['JetBrains_Mono',monospace] border transition-colors ${
-                    selectedCategory === category
-                      ? 'border-[var(--accent)] text-[var(--accent)] bg-[var(--accent)]/10'
-                      : 'border-[var(--divider)] hover:border-[var(--accent)]'
-                  }`}
+            {/* Category Filter and Year Dropdown */}
+            <div className="flex gap-4 flex-wrap items-center justify-between">
+              <div className="flex gap-2 flex-wrap">
+                {categories.map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => setSelectedCategory(category)}
+                    className={`px-3 sm:px-4 py-2 text-[11px] sm:text-[12px] font-['JetBrains_Mono',monospace] border transition-colors ${
+                      selectedCategory === category
+                        ? 'border-[var(--accent)] text-[var(--accent)] bg-[var(--accent)]/10'
+                        : 'border-[var(--divider)] hover:border-[var(--accent)]'
+                    }`}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
+              
+              {/* Year Dropdown */}
+              <div className="flex items-center gap-2">
+                <label htmlFor="year-select" className="text-[11px] sm:text-[12px] font-['JetBrains_Mono',monospace] text-[var(--text-secondary)]">
+                  Year:
+                </label>
+                <select
+                  id="year-select"
+                  value={selectedYear}
+                  onChange={(e) => setSelectedYear(e.target.value)}
+                  className="bg-[var(--bg-secondary)] border border-[var(--divider)] px-3 py-2 text-[11px] sm:text-[12px] font-['JetBrains_Mono',monospace] focus:outline-none focus:border-[var(--accent)] transition-colors cursor-pointer hover:border-[var(--accent)]"
                 >
-                  {category}
-                </button>
-              ))}
+                  <option value="All">All Years</option>
+                  {Array.from(new Set(operations.filter(op => op.year).map(op => op.year!))).sort().reverse().map((year) => (
+                    <option key={year} value={year}>{year}</option>
+                  ))}
+                </select>
+              </div>
             </div>
           </motion.div>
 

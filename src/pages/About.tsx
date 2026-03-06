@@ -6,7 +6,7 @@ export function About() {
     'Practice over slides',
     'Curiosity before credentials',
     'Team over ego',
-    'Documentation matters',
+    'Documentation over memory',
   ];
 
   const domains = [
@@ -15,7 +15,7 @@ export function About() {
     'Reverse Engineering',
     'AI Security',
     'OSINT',
-    'Systems Engineering',
+    'Blockchain Security',
     'Cryptography',
     'Network Security',
   ];
@@ -40,43 +40,22 @@ export function About() {
               transition={{ delay: 0.2 }}
             >
               <p>
-                HackerTroupe is a collective of security researchers, engineers, and builders who learn by breaking things. We believe that real understanding comes from hands-on experimentation, not passive consumption.
+                HackerTroupe is a small, focused collective of security researchers and engineers formed around one idea: security cannot be learned passively.
               </p>
+
               <p>
-                Our approach is simple: dive deep into systems, document what we find, and share knowledge that matters. We don't chase trends or collect badges. We pursue understanding through research, competition, and building real tools.
+                We study systems by interacting with them directly identifying how they fail, why those failures exist, and what realistic exploitation and defense look like in practice.
               </p>
+
               <p>
-                This is where theory meets practice. Where curiosity drives discovery. Where breaking and building are two sides of the same process.
+                Our work is driven by research sprints, competitive problem-solving, and internal experiments. We document outcomes carefully so knowledge is preserved, reproducible, and useful beyond a single event or challenge.
+              </p>
+
+              <p>
+                HackerTroupe exists to close the gap between theory and real-world security where understanding is earned through analysis, iteration, and disciplined execution.
               </p>
             </motion.div>
-          </section>
 
-          {/* Principles */}
-          <section className="mb-20 sm:mb-24">
-            <motion.h2 
-              className="font-['Space_Grotesk',sans-serif] text-[28px] sm:text-[32px] lg:text-[36px] text-[var(--accent)] mb-6 sm:mb-8 font-semibold"
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-            >
-              Principles
-            </motion.h2>
-            <div className="space-y-3 sm:space-y-4">
-              {principles.map((principle, index) => (
-                <motion.div 
-                  key={index}
-                  className="border-l-2 border-[var(--accent)] pl-4 sm:pl-5 py-2"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <p className="font-['Inter',sans-serif] text-[14px] sm:text-[15px] lg:text-[16px]">
-                    {principle}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
           </section>
 
           {/* Domains */}
@@ -88,6 +67,10 @@ export function About() {
               viewport={{ once: true }}
             >
               Domains
+              <p className="mb-6 text-[13px] sm:text-[14px] text-[var(--text-secondary)] max-w-[700px]">
+                These domains represent areas of active exploration rather than strict specialization. 
+                Members often operate across multiple domains depending on the problem space.
+              </p>
             </motion.h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {domains.map((domain, index) => (

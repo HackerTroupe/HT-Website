@@ -5,6 +5,7 @@ export interface Post {
   date: string;
   abstract: string;
   content: string;
+  year?: string; // Year for filtering (extracted from date if not provided)
 }
 
 export const posts: Post[] = [
@@ -13,6 +14,7 @@ export const posts: Post[] = [
     title: 'Breaking GraphQL: A Study in API Mutation Abuse',
     type: 'Research Log',
     date: '2024-05-15',
+    year: '2024',
     abstract: 'Deep analysis of GraphQL mutation vulnerabilities across 50+ production APIs. Documenting attack patterns, exploitation techniques, and defensive strategies.',
     content: `# Overview
 
@@ -100,6 +102,7 @@ We're developing an open-source GraphQL security testing framework that automate
     id: '2',
     title: 'DEFCON CTF Quals 2024: Binary Exploitation Walkthrough',
     type: 'CTF Writeup',
+    year: '2024',
     date: '2024-05-10',
     abstract: 'Complete writeup of the binary exploitation challenges from DEFCON CTF Qualifiers. Includes custom tooling developed for heap analysis.',
     content: `# Challenge Overview
@@ -172,6 +175,7 @@ Successfully exploited to get shell access. The key was understanding the custom
     id: '3',
     title: 'Building a Real-Time SAST Engine',
     type: 'Build Diary',
+    year: '2024',
     date: '2024-04-22',
     abstract: 'Documentation of building a static analysis security testing tool from scratch. Covers AST parsing, pattern matching, and rule engine design.',
     content: `# Project Goals

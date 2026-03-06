@@ -8,6 +8,7 @@ import { getPosts } from '../data/posts';
 export function Posts() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState<string>('All');
+  const [selectedYear, setSelectedYear] = useState<string>('All');
   const [posts, setPosts] = useState(getPosts());
 
   useEffect(() => {
@@ -31,28 +32,30 @@ export function Posts() {
 
   const types = ['All', 'Research Log', 'CTF Writeup', 'Build Diary', 'Paper Notes'];
 
-  const filteredPosts = posts.filter(post => {
-    const matchesSearch = 
+  const filteredPosts = posts.filter((post) => {
+    const matchesSearch =
       post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       post.abstract.toLowerCase().includes(searchTerm.toLowerCase());
-    
+
     const matchesType = selectedType === 'All' || post.type === selectedType;
-    
-    return matchesSearch && matchesType;
+    const matchesYear = selectedYear === 'All' || post.year === selectedYear;
+
+    return matchesSearch && matchesType && matchesYear;
   });
 
   return (
     <PageTransition>
       <div className="min-h-screen pt-20 sm:pt-24 pb-16 sm:pb-20">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.h1 
+          <motion.h1
             className="font-['Space_Grotesk',sans-serif] text-[32px] sm:text-[40px] lg:text-[48px] text-[var(--accent)] mb-2 font-semibold"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
             Posts / Logs
           </motion.h1>
-          <motion.p 
+
+          <motion.p
             className="font-['Inter',sans-serif] text-[var(--text-secondary)] text-[13px] sm:text-[14px] mb-6 sm:mb-8"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -62,7 +65,7 @@ export function Posts() {
           </motion.p>
 
           {/* Search and Filter */}
-          <motion.div 
+          <motion.div
             className="mb-6 sm:mb-8 space-y-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -80,21 +83,45 @@ export function Posts() {
               />
             </div>
 
-            {/* Type Filter */}
-            <div className="flex gap-2 flex-wrap">
-              {types.map((type) => (
-                <button
-                  key={type}
-                  onClick={() => setSelectedType(type)}
-                  className={`px-3 sm:px-4 py-2 text-[11px] sm:text-[12px] font-['JetBrains_Mono',monospace] border transition-colors ${
-                    selectedType === type
-                      ? 'border-[var(--accent)] text-[var(--accent)] bg-[var(--accent)]/10'
-                      : 'border-[var(--divider)] hover:border-[var(--accent)]'
-                  }`}
+            <div className="flex gap-4 flex-wrap items-center justify-between">
+              <div className="flex gap-2 flex-wrap">
+                {types.map((type) => (
+                  <button
+                    key={type}
+                    onClick={() => setSelectedType(type)}
+                    className={`px-3 sm:px-4 py-2 text-[11px] sm:text-[12px] font-['JetBrains_Mono',monospace] border transition-colors ${
+                      selectedType === type
+                        ? 'border-[var(--accent)] text-[var(--accent)] bg-[var(--accent)]/10'
+                        : 'border-[var(--divider)] hover:border-[var(--accent)]'
+                    }`}
+                  >
+                    {type}
+                  </button>
+                ))}
+              </div>
+
+              {/* Year Dropdown */}
+              <div className="flex items-center gap-2">
+                <label htmlFor="year-select" className="text-[11px] sm:text-[12px] font-['JetBrains_Mono',monospace] text-[var(--text-secondary)]">
+                  Year:
+                </label>
+                <select
+                  id="year-select"
+                  value={selectedYear}
+                  onChange={(e) => setSelectedYear(e.target.value)}
+                  className="bg-[var(--bg-secondary)] border border-[var(--divider)] px-3 py-2 text-[11px] sm:text-[12px] font-['JetBrains_Mono',monospace] focus:outline-none focus:border-[var(--accent)] transition-colors cursor-pointer hover:border-[var(--accent)]"
                 >
-                  {type}
-                </button>
-              ))}
+                  <option value="All">All Years</option>
+                  {Array.from(new Set(posts.filter((p) => p.year).map((p) => p.year!)))
+                    .sort()
+                    .reverse()
+                    .map((year) => (
+                      <option key={year} value={year}>
+                        {year}
+                      </option>
+                    ))}
+                </select>
+              </div>
             </div>
           </motion.div>
 
@@ -119,13 +146,14 @@ export function Posts() {
                           [{post.type}]
                         </span>
                         <span className="font-['JetBrains_Mono',monospace] text-[10px] sm:text-[11px] text-[var(--text-secondary)]">
-                          {new Date(post.date).toLocaleDateString('en-US', { 
-                            year: 'numeric', 
-                            month: 'short', 
-                            day: 'numeric' 
+                          {new Date(post.date).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric',
                           })}
                         </span>
                       </div>
+
                       <h3 className="font-['Space_Grotesk',sans-serif] text-[18px] sm:text-[20px] lg:text-[22px] mb-3 group-hover:text-[var(--accent)] transition-colors font-semibold">
                         {post.title}
                       </h3>
@@ -140,14 +168,8 @@ export function Posts() {
           </div>
 
           {filteredPosts.length === 0 && (
-            <motion.div 
-              className="text-center py-16 sm:py-20"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-            >
-              <p className="font-['Inter',sans-serif] text-[14px] text-[var(--text-secondary)]">
-                No posts found matching your criteria.
-              </p>
+            <motion.div className="text-center py-16 sm:py-20" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+              <p className="font-['Inter',sans-serif] text-[14px] text-[var(--text-secondary)]">No posts found matching your criteria.</p>
             </motion.div>
           )}
         </div>

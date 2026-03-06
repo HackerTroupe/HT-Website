@@ -81,7 +81,7 @@ export function Home() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            INDEPENDENT SECURITY RESEARCH & CTF TEAM
+            INDEPENDENT SECURITY RESEARCH & CTF COLLECTIVE
           </motion.p>
           
           {/* Scroll Indicator */}

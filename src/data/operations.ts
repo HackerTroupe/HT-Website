@@ -6,6 +6,7 @@ export interface Operation {
   focus: string;
   outcome: string;
   date: string;
+  year?: string; // Year for filtering (extracted from date if not provided)
 }
 
 const defaultOperations: Operation[] = [
@@ -17,6 +18,7 @@ const defaultOperations: Operation[] = [
     focus: 'Binary exploitation, cryptography',
     outcome: 'Top 50 globally, developed custom fuzzing tool',
     date: '2024-05',
+    year: '2024',
   },
   {
     id: '2',
@@ -26,6 +28,7 @@ const defaultOperations: Operation[] = [
     focus: 'GraphQL injection vulnerabilities',
     outcome: 'Published whitepaper, 3 CVEs discovered',
     date: '2024-03',
+    year: '2024',
   },
   {
     id: '3',
@@ -35,6 +38,7 @@ const defaultOperations: Operation[] = [
     focus: 'Automated SAST tool development',
     outcome: '1st place, prototype deployed in production',
     date: '2024-01',
+    year: '2024',
   },
   {
     id: '4',
@@ -44,6 +48,7 @@ const defaultOperations: Operation[] = [
     focus: 'Web exploitation, reverse engineering',
     outcome: 'Top 100, developed Chrome extension for recon',
     date: '2023-11',
+    year: '2023',
   },
   {
     id: '5',
@@ -53,6 +58,7 @@ const defaultOperations: Operation[] = [
     focus: 'Adversarial attacks on image classifiers',
     outcome: 'Research paper submitted, proof-of-concept tool',
     date: '2023-09',
+    year: '2023',
   },
   {
     id: '6',
@@ -62,6 +68,7 @@ const defaultOperations: Operation[] = [
     focus: 'Real-time threat detection system',
     outcome: '2nd place, system adopted by 3 companies',
     date: '2023-07',
+    year: '2023',
   },
   {
     id: '7',
@@ -71,6 +78,7 @@ const defaultOperations: Operation[] = [
     focus: 'Forensics, OSINT, cryptography',
     outcome: 'Top 25, documented complete writeups',
     date: '2023-03',
+    year: '2023',
   },
   {
     id: '8',
@@ -80,6 +88,7 @@ const defaultOperations: Operation[] = [
     focus: 'Docker & Kubernetes security',
     outcome: 'Blog series, presented at local security meetup',
     date: '2023-01',
+    year: '2023',
   },
 ];
 

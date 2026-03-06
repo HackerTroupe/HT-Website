@@ -1,4 +1,4 @@
-import { Github, Linkedin } from 'lucide-react';
+import { Flag, Github, Instagram, Linkedin, Twitter } from "lucide-react";
 
 export function Footer() {
   return (
@@ -6,23 +6,52 @@ export function Footer() {
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="font-['Inter',sans-serif] text-[12px] sm:text-[14px] text-[var(--text-secondary)] text-center sm:text-left">
-            HackerTroupe — Research · Security · Systems
+            HackerTroupe - Independent Security Research & CTF Collective
           </p>
+
           <div className="flex gap-5">
+            <a
+              href="https://ctftime.org/team/382929"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-all hover:scale-110"
+              aria-label="CTFtime"
+            >
+              <Flag className="w-4 h-4" />
+            </a>
+            <a
+              href="https://instagram.com/hackertroupe/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-all hover:scale-110"
+              aria-label="Instagram"
+            >
+              <Instagram className="w-4 h-4" />
+            </a>
+            <a
+              href="https://x.com/HackerTroupe"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-all hover:scale-110"
+              aria-label="X"
+            >
+              <Twitter className="w-4 h-4" />
+            </a>
             <a
               href="https://github.com/hackertroupe"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors"
+              className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-all hover:scale-110"
               aria-label="GitHub"
             >
               <Github className="w-4 h-4" />
             </a>
+
             <a
               href="https://linkedin.com/company/hackertroupe"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors"
+              className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-all hover:scale-110"
               aria-label="LinkedIn"
             >
               <Linkedin className="w-4 h-4" />

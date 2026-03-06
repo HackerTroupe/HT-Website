@@ -15,7 +15,6 @@ export function Members() {
   }, []);
 
   const domains = ['All', ...Array.from(new Set(members.map(m => m.domain)))];
-  const years = ['All', ...Array.from(new Set(members.map(m => m.year))).sort()];
 
   const filteredMembers = members.filter(member => {
     const matchesSearch = 
@@ -69,8 +68,8 @@ export function Members() {
               />
             </div>
 
-            {/* Domain and Year Filters */}
-            <div className="flex gap-2 flex-wrap items-center justify-between">
+            {/* Domain Filter and Year Dropdown */}
+            <div className="flex gap-4 flex-wrap items-center justify-between">
               <div className="flex gap-2 flex-wrap">
                 {domains.map((domain) => (
                   <button
@@ -87,21 +86,22 @@ export function Members() {
                 ))}
               </div>
               
-              {/* Year Filter - Compact buttons */}
-              <div className="flex gap-2 flex-wrap">
-                {years.map((year) => (
-                  <button
-                    key={year}
-                    onClick={() => setSelectedYear(year)}
-                    className={`px-3 sm:px-4 py-2 text-[11px] sm:text-[12px] font-mono border transition-colors ${
-                      selectedYear === year
-                        ? 'border-[var(--accent)] text-[var(--accent)] bg-cyan-400 bg-opacity-10'
-                        : 'border-[var(--divider)] hover:border-[var(--accent)]'
-                    }`}
-                  >
-                    {year === 'All' ? 'All' : year}
-                  </button>
-                ))}
+              {/* Year Dropdown */}
+              <div className="flex items-center gap-2">
+                <label htmlFor="year-select" className="text-[11px] sm:text-[12px] font-mono text-[var(--text-secondary)]">
+                  Year:
+                </label>
+                <select
+                  id="year-select"
+                  value={selectedYear}
+                  onChange={(e) => setSelectedYear(e.target.value)}
+                  className="bg-[var(--bg-secondary)] border border-[var(--divider)] px-3 py-2 text-[11px] sm:text-[12px] font-mono focus:outline-none focus:border-[var(--accent)] transition-colors cursor-pointer hover:border-[var(--accent)]"
+                >
+                  <option value="All">All Years</option>
+                  {Array.from(new Set(members.map(m => m.year))).sort().reverse().map((year) => (
+                    <option key={year} value={year}>{year}</option>
+                  ))}
+                </select>
               </div>
             </div>
           </motion.div>
