@@ -28,15 +28,17 @@ export function Operations() {
   const categories = ['All', 'CTF', 'Hackathon', 'Research'];
 
   const filteredOperations = operations.filter(op => {
-    const matchesSearch = 
-      op.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      op.focus.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      op.outcome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      op.role.toLowerCase().includes(searchTerm.toLowerCase());
-    
+    const searchLower = searchTerm.toLowerCase();
+    const matchesSearch = !searchTerm ||
+      op.name.toLowerCase().includes(searchLower) ||
+      op.outcome.toLowerCase().includes(searchLower) ||
+      op.organizer?.toLowerCase().includes(searchLower) ||
+      op.description?.toLowerCase().includes(searchLower) ||
+      op.participants?.some(p => p.toLowerCase().includes(searchLower));
+
     const matchesCategory = selectedCategory === 'All' || op.category === selectedCategory;
     const matchesYear = selectedYear === 'All' || op.year === selectedYear;
-    
+
     return matchesSearch && matchesCategory && matchesYear;
   });
 
@@ -117,59 +119,64 @@ export function Operations() {
             </div>
           </motion.div>
 
-          {/* Operations List */}
-          <div className="space-y-4">
+          {/* Operations Grid — 2 per row */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {filteredOperations.map((op, index) => (
-              <motion.div 
-                key={index}
-                className="border border-[var(--divider)] p-4 sm:p-6 hover:border-[var(--accent)] transition-all group"
+              <motion.div
+                key={op.id}
+                className="border border-[var(--divider)] p-4 sm:p-5 hover:border-[var(--accent)] transition-all flex flex-col"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
                 whileHover={{ x: 4 }}
               >
-                <div className="flex items-start justify-between mb-3">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 sm:gap-3 mb-2 flex-wrap">
-                      <span className={`font-['JetBrains_Mono',monospace] text-[10px] sm:text-[11px] uppercase ${getCategoryColor(op.category)}`}>
-                        [{op.category}]
-                      </span>
-                      <span className="font-['JetBrains_Mono',monospace] text-[10px] sm:text-[11px] text-[var(--text-secondary)]">
-                        {op.date}
-                      </span>
-                    </div>
-                    <h3 className="font-['Space_Grotesk',sans-serif] text-[18px] sm:text-[20px] mb-3 font-semibold">
-                      {op.name}
-                    </h3>
-                  </div>
+                {/* Category + date */}
+                <div className="flex items-center gap-2 sm:gap-3 mb-2 flex-wrap">
+                  <span className={`font-['JetBrains_Mono',monospace] text-[10px] sm:text-[11px] uppercase ${getCategoryColor(op.category)}`}>
+                    [{op.category}]
+                  </span>
+                  <span className="font-['JetBrains_Mono',monospace] text-[10px] sm:text-[11px] text-[var(--text-secondary)]">
+                    {op.date}
+                  </span>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-                  <div>
-                    <p className="font-['JetBrains_Mono',monospace] text-[10px] text-[var(--text-secondary)] uppercase mb-1">
-                      Role
-                    </p>
-                    <p className="font-['Inter',sans-serif] text-[12px] sm:text-[13px]">
-                      {op.role}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="font-['JetBrains_Mono',monospace] text-[10px] text-[var(--text-secondary)] uppercase mb-1">
-                      Focus Area
-                    </p>
-                    <p className="font-['Inter',sans-serif] text-[12px] sm:text-[13px]">
-                      {op.focus}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="font-['JetBrains_Mono',monospace] text-[10px] text-[var(--text-secondary)] uppercase mb-1">
-                      Outcome
-                    </p>
-                    <p className="font-['Inter',sans-serif] text-[12px] sm:text-[13px] text-[var(--text-secondary)]">
-                      {op.outcome}
-                    </p>
-                  </div>
+                {/* Name */}
+                <h3 className="font-['Space_Grotesk',sans-serif] text-[16px] sm:text-[18px] mb-3 font-semibold leading-snug">
+                  {op.name}
+                </h3>
+
+                {/* Organizer */}
+                {op.organizer && (
+                  <p className="font-['Inter',sans-serif] text-[11px] sm:text-[12px] text-[var(--text-secondary)] mb-3">
+                    <span className="font-['JetBrains_Mono',monospace] text-[10px] uppercase mr-1">Organizer:</span>
+                    {op.organizer}
+                  </p>
+                )}
+
+                {/* Outcome */}
+                <div className="mb-3">
+                  <p className="font-['JetBrains_Mono',monospace] text-[10px] text-[var(--text-secondary)] uppercase mb-1">Outcome</p>
+                  <p className="font-['Inter',sans-serif] text-[12px] sm:text-[13px] text-[var(--text-secondary)]">
+                    {op.outcome}
+                  </p>
                 </div>
+
+                {/* Description */}
+                {op.description && (
+                  <p className="font-['Inter',sans-serif] text-[11px] sm:text-[12px] text-[var(--text-secondary)] border-t border-[var(--divider)] pt-3 mt-auto">
+                    {op.description}
+                  </p>
+                )}
+
+                {/* Participants */}
+                {op.participants && op.participants.length > 0 && (
+                  <div className="mt-3 pt-3 border-t border-[var(--divider)]">
+                    <p className="font-['JetBrains_Mono',monospace] text-[10px] text-[var(--text-secondary)] uppercase mb-1">Participants</p>
+                    <p className="font-['Inter',sans-serif] text-[11px] sm:text-[12px] text-[var(--text-secondary)]">
+                      {op.participants.join(', ')}
+                    </p>
+                  </div>
+                )}
               </motion.div>
             ))}
           </div>

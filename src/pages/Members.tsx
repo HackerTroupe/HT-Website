@@ -16,6 +16,17 @@ export function Members() {
 
   const domains = ['All', ...Array.from(new Set(members.map(m => m.domain)))];
 
+  // Collect unique years (members may have a single year string or an array of years)
+  const yearsSet = new Set<string>();
+  members.forEach((m) => {
+    if (Array.isArray(m.year)) {
+      m.year.forEach((y) => yearsSet.add(y));
+    } else if (m.year) {
+      yearsSet.add(m.year);
+    }
+  });
+  const years = Array.from(yearsSet).sort().reverse();
+
   const filteredMembers = members.filter(member => {
     const matchesSearch = 
       member.alias.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -24,7 +35,7 @@ export function Members() {
       member.skills.toLowerCase().includes(searchTerm.toLowerCase());
     
     const matchesDomain = selectedDomain === 'All' || member.domain === selectedDomain;
-    const matchesYear = selectedYear === 'All' || member.year === selectedYear;
+    const matchesYear = selectedYear === 'All' || (Array.isArray(member.year) ? member.year.includes(selectedYear) : member.year === selectedYear);
     
     return matchesSearch && matchesDomain && matchesYear;
   });
@@ -98,7 +109,7 @@ export function Members() {
                   className="bg-[var(--bg-secondary)] border border-[var(--divider)] px-3 py-2 text-[11px] sm:text-[12px] font-mono focus:outline-none focus:border-[var(--accent)] transition-colors cursor-pointer hover:border-[var(--accent)]"
                 >
                   <option value="All">All Years</option>
-                  {Array.from(new Set(members.map(m => m.year))).sort().reverse().map((year) => (
+                  {years.map((year) => (
                     <option key={year} value={year}>{year}</option>
                   ))}
                 </select>

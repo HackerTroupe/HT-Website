@@ -1,52 +1,86 @@
 # Operation Template
 
-Use this template to add a new operation. Copy the structure below and add it to `src/data/operations.ts`.
+Use this template to add a new operation to `src/data/operations.ts`.
 
-## Template
+> **Note:** `id` is auto-generated — do not include it. Operations are automatically sorted newest first.
 
-```typescript
-{
-  id: 'unique-id',  // Unique identifier (use next available number or descriptive ID)
-  category: 'CTF',  // Options: 'CTF', 'Hackathon', or 'Research'
-  name: 'Operation Name',  // Full name of the CTF/Hackathon/Research project
-  role: 'Your Role',  // e.g., 'Team Lead', 'Team Participant', 'Solo Research'
-  focus: 'Focus areas',  // Main technical areas covered
-  outcome: 'Results achieved',  // What you accomplished or learned
-  date: 'YYYY-MM',  // Date in YYYY-MM format (e.g., '2026-03')
-}
-```
+---
 
-## Example
+## CTF Template
 
 ```typescript
 {
-  id: '9',
   category: 'CTF',
-  name: 'HackTheBox CTF 2026',
-  role: 'Team Participant',
-  focus: 'Web exploitation, cryptography',
-  outcome: 'Top 30 globally, documented novel XSS bypass technique',
-  date: '2026-03',
+  name: 'CTF Name Year',           // Full event name
+  date: 'YYYY-MM',                 // e.g., '2026-03'
+  outcome: 'What was achieved',    // Key result or deliverable
+  placement: 'Top 50 globally',    // Optional: ranking or placement
+  organizer: 'Google',             // Optional: who ran it
+  tags: ['web', 'cryptography'],   // Optional: challenge categories solved
+  writeupUrl: 'https://...',       // Optional: link to writeup
+  description: 'Extra context',    // Optional: additional notes
 }
 ```
+
+## Hackathon Template
+
+```typescript
+{
+  category: 'Hackathon',
+  name: 'Hackathon Name Year',
+  date: 'YYYY-MM',
+  outcome: 'What was achieved',
+  placement: '1st Place',          // Optional: ranking or award
+  organizer: 'Organizer Name',     // Optional
+  project: 'What was built',       // Optional: project name or description
+  tags: ['rust', 'web security'],  // Optional: tech stack or themes
+  writeupUrl: 'https://...',       // Optional: project link or demo
+  description: 'Extra context',    // Optional
+}
+```
+
+## Research Template
+
+```typescript
+{
+  category: 'Research',
+  name: 'Research Project Name',
+  date: 'YYYY-MM',
+  outcome: 'Key finding or deliverable',
+  topic: 'Research area or subject',   // Optional: what was studied
+  tags: ['fuzzing', 'CVE'],            // Optional: topics or keywords
+  writeupUrl: 'https://...',           // Optional: paper, blog, or repo link
+  description: 'Extra context',        // Optional
+}
+```
+
+---
 
 ## How to Add
 
 1. Open `src/data/operations.ts`
 2. Find the `defaultOperations` array
-3. Add your operation object to the array
-4. Make sure to add a comma after the previous entry
-5. Save the file
+3. Pick the template matching your category, fill in the fields, and add it to the array
+4. No need to assign an `id` — it's generated automatically when using `addOperation()`
+5. For entries directly in `defaultOperations`, add a short descriptive `id` string (e.g., `'htb-ctf-2026'`)
+
+---
 
 ## Field Descriptions
 
-- **id**: Unique identifier. Use the next sequential number (string format)
-- **category**: Choose from 'CTF', 'Hackathon', or 'Research'
-- **name**: Full name of the event or research project
-- **role**: Your specific role (Team Lead, Participant, Solo, etc.)
-- **focus**: Technical areas you worked on
-- **outcome**: Concrete results, placement, or deliverables
-- **date**: Format as 'YYYY-MM' (e.g., '2026-03')
+| Field         | Required | Description                                            |
+| ------------- | -------- | ------------------------------------------------------ |
+| `category`    | Yes      | `'CTF'`, `'Hackathon'`, or `'Research'`                |
+| `name`        | Yes      | Full name of the event or project                      |
+| `date`        | Yes      | `'YYYY-MM'` format — used for sorting and year filter  |
+| `outcome`     | Yes      | Concrete result, finding, or deliverable               |
+| `placement`   | No       | Ranking or award (CTF / Hackathon)                     |
+| `organizer`   | No       | Who organized the event                                |
+| `tags`        | No       | Challenge categories, tech stack, or research keywords |
+| `project`     | No       | What was built (Hackathon)                             |
+| `topic`       | No       | Research area or subject (Research)                    |
+| `writeupUrl`  | No       | Link to writeup, paper, or blog post                   |
+| `description` | No       | Any extra notes or context                             |
 
 ## Category Colors
 

@@ -127,44 +127,53 @@ export function Posts() {
 
           {/* Posts List */}
           <div className="space-y-4">
-            {filteredPosts.map((post, index) => (
-              <motion.div
-                key={post.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-                whileHover={{ x: 4 }}
-              >
-                <Link
-                  to={`/posts/${post.id}`}
-                  className="block border border-[var(--divider)] p-4 sm:p-6 hover:border-[var(--accent)] transition-all group"
+            {filteredPosts.map((post, index) => {
+              const slug = post.contentFile.replace(/\.md$/i, '');
+              return (
+                <motion.div
+                  key={post.contentFile}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                  whileHover={{ x: 4 }}
                 >
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 sm:gap-3 mb-2 flex-wrap">
-                        <span className={`font-['JetBrains_Mono',monospace] text-[10px] sm:text-[11px] uppercase ${getTypeColor(post.type)}`}>
-                          [{post.type}]
-                        </span>
-                        <span className="font-['JetBrains_Mono',monospace] text-[10px] sm:text-[11px] text-[var(--text-secondary)]">
-                          {new Date(post.date).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'short',
-                            day: 'numeric',
-                          })}
-                        </span>
-                      </div>
+                  <Link
+                    to={`/posts/${slug}`}
+                    className="block border border-[var(--divider)] p-4 sm:p-6 hover:border-[var(--accent)] transition-all group"
+                  >
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 sm:gap-3 mb-2 flex-wrap">
+                          <span className={`font-['JetBrains_Mono',monospace] text-[10px] sm:text-[11px] uppercase ${getTypeColor(post.type)}`}>
+                            [{post.type}]
+                          </span>
+                          <span className="font-['JetBrains_Mono',monospace] text-[10px] sm:text-[11px] text-[var(--text-secondary)]">
+                            {new Date(post.date).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'short',
+                              day: 'numeric',
+                            })}
+                          </span>
+                        </div>
 
-                      <h3 className="font-['Space_Grotesk',sans-serif] text-[18px] sm:text-[20px] lg:text-[22px] mb-3 group-hover:text-[var(--accent)] transition-colors font-semibold">
-                        {post.title}
-                      </h3>
-                      <p className="font-['Inter',sans-serif] text-[13px] sm:text-[14px] text-[var(--text-secondary)] leading-relaxed">
-                        {post.abstract}
-                      </p>
+                        <h3 className="font-['Space_Grotesk',sans-serif] text-[18px] sm:text-[20px] lg:text-[22px] mb-3 group-hover:text-[var(--accent)] transition-colors font-semibold">
+                          {post.title}
+                        </h3>
+                        <p className="font-['Inter',sans-serif] text-[13px] sm:text-[14px] text-[var(--text-secondary)] leading-relaxed">
+                          {post.abstract}
+                        </p>
+
+                        {post.authors && post.authors.length > 0 && (
+                          <p className="mt-2 font-['JetBrains_Mono',monospace] text-[11px] text-[var(--text-secondary)]">
+                            {post.authors.join(' x ')}
+                          </p>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
+                  </Link>
+                </motion.div>
+              );
+            })}
           </div>
 
           {filteredPosts.length === 0 && (

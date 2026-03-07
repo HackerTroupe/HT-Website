@@ -26,7 +26,7 @@ function AppContent({ isDark, toggleTheme }: AppContentProps) {
           <Route path="/members" element={<Members />} />
           <Route path="/operations" element={<Operations />} />
           <Route path="/posts" element={<Posts />} />
-          <Route path="/posts/:id" element={<PostDetail />} />
+          <Route path="/posts/:slug" element={<PostDetail />} />
         </Routes>
       </AnimatePresence>
       <Footer />

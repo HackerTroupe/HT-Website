@@ -6,10 +6,10 @@ export interface LandingStats {
 }
 
 const defaultStats: LandingStats = {
-  ctfsPlayed: '47',
-  hackathons: '12',
-  projectsBuilt: '23',
-  researchLogs: '156',
+  ctfsPlayed: '1',
+  hackathons: '0',
+  projectsBuilt: '0',
+  researchLogs: '0',
 };
 
 const STATS_STORAGE_KEY = 'hackertroupe_landing_stats';

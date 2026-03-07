@@ -2,130 +2,70 @@ export interface Operation {
   id: string;
   category: 'CTF' | 'Hackathon' | 'Research';
   name: string;
-  role: string;
-  focus: string;
-  outcome: string;
-  date: string;
-  year?: string; // Year for filtering (extracted from date if not provided)
+  date: string;           // YYYY-MM or YYYY-MM-DD — used for sorting and display
+  outcome: string;        // Key result, achievement, or deliverable
+  organizer?: string;     // Who ran the event
+  description?: string;   // Additional context or notes
+  participants?: string[]; // Team members who participated
+  year?: string;          // Derived from date automatically if not set
+}
+
+function generateId(): string {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2);
 }
 
 const defaultOperations: Operation[] = [
   {
-    id: '1',
+    id: 'cryptonite-2026',
     category: 'CTF',
-    name: 'DEFCON CTF Qualifiers 2024',
-    role: 'Team Participant',
-    focus: 'Binary exploitation, cryptography',
-    outcome: 'Top 50 globally, developed custom fuzzing tool',
-    date: '2024-05',
-    year: '2024',
-  },
-  {
-    id: '2',
-    category: 'Research',
-    name: 'API Security Research Sprint',
-    role: 'Lead Researcher',
-    focus: 'GraphQL injection vulnerabilities',
-    outcome: 'Published whitepaper, 3 CVEs discovered',
-    date: '2024-03',
-    year: '2024',
-  },
-  {
-    id: '3',
-    category: 'Hackathon',
-    name: 'SecureCode Hackathon',
-    role: 'Team Lead',
-    focus: 'Automated SAST tool development',
-    outcome: '1st place, prototype deployed in production',
-    date: '2024-01',
-    year: '2024',
-  },
-  {
-    id: '4',
-    category: 'CTF',
-    name: 'Google CTF 2023',
-    role: 'Team Participant',
-    focus: 'Web exploitation, reverse engineering',
-    outcome: 'Top 100, developed Chrome extension for recon',
-    date: '2023-11',
-    year: '2023',
-  },
-  {
-    id: '5',
-    category: 'Research',
-    name: 'ML Model Security Analysis',
-    role: 'Collaborative Research',
-    focus: 'Adversarial attacks on image classifiers',
-    outcome: 'Research paper submitted, proof-of-concept tool',
-    date: '2023-09',
-    year: '2023',
-  },
-  {
-    id: '6',
-    category: 'Hackathon',
-    name: 'CyberDefense Challenge',
-    role: 'Infrastructure Lead',
-    focus: 'Real-time threat detection system',
-    outcome: '2nd place, system adopted by 3 companies',
-    date: '2023-07',
-    year: '2023',
-  },
-  {
-    id: '7',
-    category: 'CTF',
-    name: 'PicoCTF 2023',
-    role: 'Team Participant',
-    focus: 'Forensics, OSINT, cryptography',
-    outcome: 'Top 25, documented complete writeups',
-    date: '2023-03',
-    year: '2023',
-  },
-  {
-    id: '8',
-    category: 'Research',
-    name: 'Container Escape Techniques',
-    role: 'Solo Research',
-    focus: 'Docker & Kubernetes security',
-    outcome: 'Blog series, presented at local security meetup',
-    date: '2023-01',
-    year: '2023',
+    name: 'CRYPTONITE CTF 2026',
+    date: '2026-03',
+    organizer: 'IIT Tirupati',
+    outcome: 'Top 28th globally solving 21/23 challenges',
+    description: 'Competed against 370+ teams worldwide in a 48-hour cybersecurity competition, showcasing our skills across multiple domains.',
   },
 ];
 
-const OPERATIONS_STORAGE_KEY = 'hackertroupe_operations';
+const OPERATIONS_STORAGE_KEY = 'hackertroupe_operations_v2';
+
+const prepare = (ops: Operation[]): Operation[] =>
+  [...ops]
+    .map(op => ({ ...op, year: op.year ?? op.date.slice(0, 4) }))
+    .sort((a, b) => b.date.localeCompare(a.date));
 
 export const getOperations = (): Operation[] => {
-  if (typeof window === 'undefined') return defaultOperations;
-  
+  if (typeof window === 'undefined') return prepare(defaultOperations);
+
   const stored = localStorage.getItem(OPERATIONS_STORAGE_KEY);
   if (stored) {
     try {
-      return JSON.parse(stored);
+      return prepare(JSON.parse(stored));
     } catch (e) {
       console.error('Failed to parse operations from localStorage', e);
     }
   }
-  
+
   localStorage.setItem(OPERATIONS_STORAGE_KEY, JSON.stringify(defaultOperations));
-  return defaultOperations;
+  return prepare(defaultOperations);
 };
 
 export const saveOperations = (operations: Operation[]): void => {
   localStorage.setItem(OPERATIONS_STORAGE_KEY, JSON.stringify(operations));
 };
 
-export const addOperation = (operation: Operation): void => {
-  const currentOperations = getOperations();
-  currentOperations.push(operation);
-  saveOperations(currentOperations);
+export const addOperation = (operation: Omit<Operation, 'id'>): Operation => {
+  const newOp: Operation = { ...operation, id: generateId() };
+  const current = getOperations();
+  saveOperations([...current, newOp]);
+  return newOp;
 };
 
-export const updateOperation = (id: string, updatedOperation: Operation): void => {
-  const currentOperations = getOperations();
-  const index = currentOperations.findIndex(o => o.id === id);
+export const updateOperation = (id: string, updates: Partial<Omit<Operation, 'id'>>): void => {
+  const current = getOperations();
+  const index = current.findIndex(o => o.id === id);
   if (index !== -1) {
-    currentOperations[index] = updatedOperation;
-    saveOperations(currentOperations);
+    current[index] = { ...current[index], ...updates };
+    saveOperations(current);
   }
 };
 
