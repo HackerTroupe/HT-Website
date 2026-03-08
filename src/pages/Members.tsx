@@ -14,7 +14,7 @@ export function Members() {
     setMembers(getMembers());
   }, []);
 
-  const domains = ['All', ...Array.from(new Set(members.map(m => m.domain)))];
+  const domains = ['All', ...Array.from(new Set(members.flatMap(m => m.domains)))];
 
   // Collect unique years (members may have a single year string or an array of years)
   const yearsSet = new Set<string>();
@@ -28,13 +28,14 @@ export function Members() {
   const years = Array.from(yearsSet).sort().reverse();
 
   const filteredMembers = members.filter(member => {
+    const term = searchTerm.toLowerCase();
     const matchesSearch = 
-      member.alias.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      member.realName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      member.domain.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      member.skills.toLowerCase().includes(searchTerm.toLowerCase());
+      member.alias.toLowerCase().includes(term) ||
+      member.realName?.toLowerCase().includes(term) ||
+      member.skills.toLowerCase().includes(term) ||
+      member.domains.some(d => d.toLowerCase().includes(term));
     
-    const matchesDomain = selectedDomain === 'All' || member.domain === selectedDomain;
+    const matchesDomain = selectedDomain === 'All' || member.domains.includes(selectedDomain);
     const matchesYear = selectedYear === 'All' || (Array.isArray(member.year) ? member.year.includes(selectedYear) : member.year === selectedYear);
     
     return matchesSearch && matchesDomain && matchesYear;
@@ -164,7 +165,7 @@ export function Members() {
                         Domain
                       </p>
                       <p className="font-sans text-[12px] sm:text-[13px]">
-                        {member.domain}
+                        {member.domains.join(', ')}
                       </p>
                     </div>
                     <div>
